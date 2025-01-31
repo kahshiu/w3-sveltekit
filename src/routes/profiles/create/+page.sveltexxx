@@ -1,0 +1,64 @@
+<script>
+	import PageWithRef from '$lib/components/PageWithRef.svelte';
+	let text = $state('');
+</script>
+
+{#snippet target()}
+	<input type="text" bind:value={text} />
+	<p>
+		Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam cursus risus id diam volutpat,
+		vitae vestibulum enim aliquet. Nullam sollicitudin lorem id luctus facilisis. Nullam felis elit,
+		maximus ut elementum sed, sagittis non leo. Nunc hendrerit at purus nec vehicula. Ut in
+		malesuada nulla. Proin bibendum sit amet felis eget accumsan. Curabitur eleifend mi nec ante
+		lobortis consequat. Cras id felis feugiat, tincidunt eros id, efficitur purus. Donec sit amet
+		nulla elit. Nullam sed justo dui.
+	</p>
+
+	<p>
+		Aliquam ac convallis mauris. Quisque maximus nisi vel lacus varius, eu ultrices augue tincidunt.
+		Sed quis orci a felis lacinia lobortis eget eu neque. Nunc ullamcorper lobortis ligula, id
+		commodo risus pellentesque a. Aliquam erat volutpat. Praesent mattis nunc turpis, nec pharetra
+		enim molestie non. Vestibulum vel lacus sollicitudin, dictum odio eu, bibendum purus. Vestibulum
+		bibendum, tellus eu cursus pulvinar, lectus nulla pulvinar ipsum, a convallis dui tortor
+		sagittis mauris. Fusce vel tempus odio. Praesent in laoreet felis. In rhoncus volutpat turpis id
+		euismod. Donec semper dui velit, vel auctor quam faucibus quis. Donec nisi lorem, feugiat ac
+		euismod in, pretium sit amet purus. Nam imperdiet est vel facilisis dictum. In ac dolor eu urna
+		rhoncus suscipit.
+	</p>
+
+	<p>
+		Vestibulum id aliquet ligula. Donec venenatis at felis lobortis viverra. Pellentesque posuere
+		tristique facilisis. Nam congue metus sem, at fermentum nisi porttitor ornare. Fusce fermentum
+		vitae elit sed ornare. Vivamus lacinia, felis nec aliquet scelerisque, nulla purus varius lorem,
+		id mollis purus enim ac purus. Aliquam rutrum ipsum ac tincidunt fermentum.
+	</p>
+
+	<p>
+		Praesent non interdum lectus. Mauris lacinia lorem ex, facilisis molestie est cursus vitae. Nunc
+		eget nulla ultrices dui pellentesque vestibulum. Curabitur viverra enim enim, at condimentum
+		nulla porta in. Phasellus ut sapien quis libero malesuada mattis ac dictum odio. Nam ullamcorper
+		suscipit dictum. Vestibulum a ligula eu risus ullamcorper mattis rutrum eget libero. Vestibulum
+		fringilla, augue ut dignissim sodales, diam enim sollicitudin libero, eget semper nulla dui sed
+		lectus.
+	</p>
+
+	<p>
+		Etiam vitae gravida mauris. Pellentesque lacinia sapien sit amet orci malesuada aliquet.
+		Suspendisse tincidunt finibus tristique. Morbi nec ante ut neque lobortis fringilla. Aliquam
+		quis tortor molestie dui efficitur interdum ut sit amet felis. Morbi iaculis non tortor ut
+		fringilla. Curabitur sapien quam, ullamcorper mattis quam vel, placerat vestibulum tortor.
+		Praesent porttitor id sapien eget suscipit. Aliquam enim nibh, lacinia eu mollis at, lobortis
+		rutrum erat.
+	</p>
+{/snippet}
+
+{#snippet ref()}
+	<h3>{text}</h3>
+	<ul>
+        {#each ["hello", "world"] as name, index}
+            <li><button onclick={() => { console.log(index, name); text=name }}>{name}</button></li>
+        {/each}
+	</ul>
+{/snippet}
+
+<PageWithRef {target} {ref} />
