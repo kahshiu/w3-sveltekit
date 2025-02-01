@@ -10,7 +10,7 @@
 		fieldDescription,
 		fieldValidationMessage
 	} = $props();
-	const radioName2 = kebabCase(radioName)
+	const radioName2 = kebabCase(radioName);
 </script>
 
 {#snippet radios()}
@@ -18,15 +18,16 @@
 		{@const k = kebabCase(key)}
 		{@const v = value.toString()}
 		{@const isChecked = v == radioValue}
+		{@const id = `${radioName2}-${k}`}
 		<input
 			type="radio"
 			name={radioName2}
-			id={k}
+			id={id}
 			value={v}
 			checked={isChecked}
 			onclick={() => radioMutate(value)}
 		/>
-		<label for={k} class={isChecked? 'is-checked': ''}>{v} - {startCase(key)}</label>
+		<label for={id} class={isChecked ? 'is-checked' : ''}>{v} - {startCase(key)}</label>
 		<br />
 	{/each}
 {/snippet}

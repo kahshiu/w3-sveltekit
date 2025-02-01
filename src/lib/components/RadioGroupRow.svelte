@@ -17,16 +17,17 @@
 		{@const k = kebabCase(key)}
 		{@const v = value.toString()}
 		{@const isChecked = v == radioValue}
+		{@const id = `${radioName2}-${k}`}
 		<div class="flex-item button-item">
 			<input
 				type="radio"
 				name={radioName2}
-				id={k}
+				id={id}
 				value={v}
 				checked={isChecked}
 				onclick={() => radioMutate(value)}
 			/>
-			<label for={k} class={isChecked ? 'is-checked' : ''}>{startCase(key)}</label>
+			<label for={id} class={isChecked ? 'is-checked' : ''}>{startCase(key)}</label>
 		</div>
 	{/each}
 {/snippet}
