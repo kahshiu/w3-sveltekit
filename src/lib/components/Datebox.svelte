@@ -6,7 +6,7 @@
 
 {#snippet textbox()}
 	<input
-		type="text"
+		type="date"
 		name={kebabCase(name)}
 		id={kebabCase(name)}
 		{value}
@@ -20,7 +20,7 @@
 <Field fieldName={name} {fieldDescription} fieldPlaceholder={textbox} {fieldValidationMessage} />
 
 <style>
-	input[type='text'] {
+	input[type='date'] {
 		min-width: 13rem;
 	}
 </style>

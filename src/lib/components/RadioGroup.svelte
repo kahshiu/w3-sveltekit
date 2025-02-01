@@ -17,15 +17,16 @@
 	{#each radioOptions as [key, value]}
 		{@const k = kebabCase(key)}
 		{@const v = value.toString()}
+		{@const isChecked = v == radioValue}
 		<input
 			type="radio"
 			name={radioName2}
 			id={k}
 			value={v}
-			checked={v == radioValue}
+			checked={isChecked}
 			onclick={() => radioMutate(value)}
 		/>
-		<label for={k}>{startCase(key)}</label>
+		<label for={k} class={isChecked? 'is-checked': ''}>{v} - {startCase(key)}</label>
 		<br />
 	{/each}
 {/snippet}
