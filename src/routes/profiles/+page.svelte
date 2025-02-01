@@ -4,15 +4,24 @@
 		<p>along with search</p>
 	</div>
 	<div class="content-ref">
-		<div>
-			<ul>
-				<li>asf</li>
-				<li>asf</li>
-				<li>asf</li>
-				<li>asf</li>
-				<li>asf</li>
-				<li>asf</li>
-			</ul>
-		</div>
+		<details open>
+			<summary>Click to expand</summary>
+			<div class="content">
+				<ul>
+					<li>asf</li>
+					<li>asf</li>
+					<li>asf</li>
+					<li>asf</li>
+					<li>asf</li>
+					<li>asf</li>
+				</ul>
+			</div>
+		</details>
 	</div>
 </div>
+
+<style>
+	.content-ref:has(details[open]) {
+		width: 50%;
+	}
+</style>

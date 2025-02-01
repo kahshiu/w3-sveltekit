@@ -76,6 +76,9 @@
 	let incomeTaxBranch = $state(null);
 	let profileStatus = $state(null);
 
+	// open
+	let isOpened = $state(true);
+
 	// updaters
 	let entityClassUpdater = (value) => {
 		entityClass = value;
@@ -419,14 +422,3 @@
 		</form>
 	</div>
 </div>
-
-<style>
-	/*
-	.field-group input[type='radio'] {
-	}
-
-	.field-group label {
-		margin-right: 1.3rem;
-	}
-		*/
-</style>

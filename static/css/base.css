@@ -236,6 +236,7 @@ main {
     width: 15rem;
     background-color: white;
     border: 1px dotted black;
+    transition: all 1.5s;
 }
 
 footer {
