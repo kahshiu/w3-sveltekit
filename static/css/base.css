@@ -84,7 +84,7 @@ nav ul.stacked li:last-of-type a {
 }
 
 .breadcrumb div:not(:last-child)::after {
-    content: '/';
+    content: ' / ';
 }
 
 .field {
@@ -103,6 +103,7 @@ nav ul.stacked li:last-of-type a {
 
 .field-validation-message {
     font-size: 0.9rem;
+    font-style: italic;
     font-weight: bold;
     color: firebrick;
 }
