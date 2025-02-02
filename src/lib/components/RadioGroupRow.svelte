@@ -27,7 +27,7 @@
 				checked={isChecked}
 				onclick={() => radioMutate(value)}
 			/>
-			<label for={id} class={isChecked ? 'is-checked' : ''}>{startCase(key)}</label>
+			<label for={id} class={isChecked ? 'is-checked' : ''}>{v} - {startCase(key)}</label>
 		</div>
 	{/each}
 {/snippet}

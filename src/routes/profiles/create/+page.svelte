@@ -1,17 +1,25 @@
 <script>
-	import { afterNavigate } from '$app/navigation';
 	import Datebox from '$lib/components/Datebox.svelte';
 	import MonthSelector from '$lib/components/MonthSelector.svelte';
 	import RadioGroup from '$lib/components/RadioGroup.svelte';
 	import RadioGroupRow from '$lib/components/RadioGroupRow.svelte';
 	import Textbox from '$lib/components/Textbox.svelte';
 	import { store } from '$lib/const/store';
-	import { isString } from 'es-toolkit';
+	import { findKey, isString, startCase } from 'es-toolkit';
 	import { isObject, some } from 'es-toolkit/compat';
+
+	let { data, form } = $props();
 
 	// page store
 	let entityClass = $state(store.entityClass.CLIENT);
 	let entityTypePrimary = $state(store.entityTypePrimary.COMPANY);
+
+	let entityNameLabel = $derived(
+		`${startCase(findKey(store.entityTypePrimary, (v) => v == entityTypePrimary))} Name`
+	);
+	let entityStatusLabel = $derived(
+		`${startCase(findKey(store.entityTypePrimary, (v) => v == entityTypePrimary))} Status`
+	);
 
 	let isClient = $derived(
 		[store.entityClass.CLIENT, store.entityClass.MASTER].includes(entityClass)
@@ -87,7 +95,7 @@
 		directorName = value.toUpperCase();
 	};
 	let directorPassworUpdater = (value) => {
-		directorPassword = value.toUpperCase();
+		directorPassword = value;
 	};
 
 	let icTypeUpdater = (value) => {
@@ -97,7 +105,7 @@
 		icNo = value;
 	};
 	let incomeTaxNoUpdater = (value) => {
-		incomeTaxNo = value;
+		incomeTaxNo = value.toUpperCase();
 	};
 	let incomeTaxBranchUpdater = (value) => {
 		incomeTaxBranch = value.toUpperCase();
@@ -208,6 +216,14 @@
 			<div>New Profile</div>
 		</div>
 
+		{#if form?.status}
+			<div class="error">
+				Action encountered error<br />
+				Error Code: {form.status} <br />
+				Error Message: {form.statusText}
+			</div>
+		{/if}
+
 		<form method="POST" action="?/create-entity">
 			<div class="form-row">
 				<div class="form-col">
@@ -241,6 +257,7 @@
 						name={'entityName'}
 						value={entityName}
 						mutator={entityNameUpdater}
+						fieldLabel={entityNameLabel}
 						fieldDescription={`Type in entity name`}
 						fieldValidationMessage={entityNameMessage}
 					/>
@@ -249,6 +266,7 @@
 						radioOptions={Object.entries(store.entityStatus)}
 						radioValue={entityStatus}
 						radioMutate={entityStatusUpdater}
+						fieldLabel={entityStatusLabel}
 						fieldDescription="Select an entity status"
 						fieldValidationMessage={entityStatusMessage}
 					/>
@@ -388,3 +406,15 @@
 		</form>
 	</div>
 </div>
+
+<style>
+	.error {
+		margin: 0.3rem;
+		padding: 0.6rem;
+		border-radius: var(--corner);
+		border: 4px ridge black;
+		background-color: firebrick;
+		color: white;
+		font-weight: bold;
+	}
+</style>

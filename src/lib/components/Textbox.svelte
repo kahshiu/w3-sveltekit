@@ -1,7 +1,7 @@
 <script>
 	import { kebabCase } from 'es-toolkit';
 	import Field from './Field.svelte';
-	let { name, value, mutator, fieldDescription, fieldValidationMessage } = $props();
+	let { name, value, mutator, fieldLabel, fieldDescription, fieldValidationMessage } = $props();
 </script>
 
 {#snippet textbox()}
@@ -17,7 +17,13 @@
 	/>
 {/snippet}
 
-<Field fieldName={name} {fieldDescription} fieldPlaceholder={textbox} {fieldValidationMessage} />
+<Field
+	{fieldLabel}
+	fieldName={name}
+	{fieldDescription}
+	fieldPlaceholder={textbox}
+	{fieldValidationMessage}
+/>
 
 <style>
 	input[type='text'] {

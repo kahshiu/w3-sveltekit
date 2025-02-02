@@ -1,3 +1,5 @@
+import { store } from "$lib/const/store.js";
+import { fail, redirect } from "@sveltejs/kit";
 import { camelCase } from "es-toolkit";
 
 export const load = ({ params }) => {
@@ -21,6 +23,48 @@ const populatePayload = (obj, transform) => {
     return payload;
 }
 
+const targetKeys = {
+    entityKeys: [
+        "entityId"
+        , "entityName"
+        , "entityClass"
+        , "entityTypePrimary"
+        , "entityTypeSecondary"
+        , "entityStatus"
+    ],
+    companyKeys: [
+        "coRegNoOld"
+        , "coRegNoNew"
+        , "employerNo"
+        , "dateIncorp"
+        , "dateCommence"
+        , "yearEndMonth"
+        , "arDueMonth"
+        , "directorName"
+        , "directorPassword"
+    ],
+    personKeys: [
+        "icType"
+        , "icNo"
+    ],
+    clientKeys: [
+        "incomeTaxNo"
+        , "incomeTaxBranch"
+        , "profileStatus"
+    ]
+}
+
+const collectKeys = (data) => {
+    const { entityClass, entityTypePrimary } = data;
+
+    const keys = [...targetKeys.entityKeys];
+    if (entityTypePrimary == store.entityTypePrimary.COMPANY) keys.push(...targetKeys.companyKeys);
+    if (entityTypePrimary == store.entityTypePrimary.PERSON) keys.push(...targetKeys.personKeys);
+    if (entityClass == store.entityClass.CLIENT) keys.push(...targetKeys.clientKeys);
+    if (entityClass == store.entityClass.MASTER) keys.push(...targetKeys.clientKeys);
+    return keys;
+}
+
 export const actions = {
     "create-entity": async ({ request }) => {
         const data = await request.formData();
@@ -30,6 +74,28 @@ export const actions = {
             "entity-type-secondary": Number,
             "entity-name": null,
             "entity-status": Number,
+
+            "co-reg-no-old": null,
+            "co-reg-no-new": null,
+            "employer-no": null,
+            "date-incorp": (v0) => {
+                if (v0) return new Date(`${v0} 00:00:00.00`)
+                return null;
+            },
+            "date-commence": (v0) => {
+                if (v0) return new Date(`${v0} 00:00:00.00`)
+                return null;
+            },
+            "year-end-month": Number,
+            "ar-due-month": Number,
+            "director-name": null,
+            "director-password": null,
+
+            "ic-type": Number,
+            "ic-no": null,
+
+            "income-tax-no": null,
+            "income-tax-branch": null,
             "profile-status": Number,
         });
         payload.relatedParents = []
@@ -47,14 +113,20 @@ export const actions = {
             });
 
             if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+                const { status, statusText } = response;
+                return fail(500, { statusText, status });
             }
 
-            const data = await response.json();
-            return { data, success: true };
+            const result = await response.json();
+            // const redirectUrl = `/profiles/edit/${result.payload.entityId}`
+            const redirectUrl = `/profiles`
+
+            redirect(303, redirectUrl);
+            return;
+            // return { success: true };
 
         } catch (error) {
-            console.error('Error fetching data:', error);
+            return fail(500, { message: 'something went wrong' });
         }
     }
 }
