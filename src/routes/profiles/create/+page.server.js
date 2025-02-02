@@ -1,9 +1,9 @@
 import { camelCase } from "es-toolkit";
 
 export const load = ({ params }) => {
-    const { entityPrimaryType } = params
+    const { entityTypePrimary } = params
     return {
-        entityPrimaryType
+        entityTypePrimary
     };
 };
 
@@ -12,7 +12,7 @@ const populatePayload = (obj, transform) => {
     for (const key in transform) {
         let v = obj.get(key);
         const transformer = transform[key];
-        if(transformer) {
+        if (transformer) {
             v = transformer(v);
         }
         const k = camelCase(key);
@@ -26,12 +26,35 @@ export const actions = {
         const data = await request.formData();
         const payload = populatePayload(data, {
             "entity-class": Number,
-            "entity-primary-type": Number,
-            "entity-secondary-type": Number,
+            "entity-type-primary": Number,
+            "entity-type-secondary": Number,
             "entity-name": null,
             "entity-status": Number,
+            "profile-status": Number,
         });
+        payload.relatedParents = []
+        payload.relatedChildren = []
 
-        return { success: true };
+        const url = "http://localhost:3000/api/entity"
+
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                body: JSON.stringify(payload),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            return { data, success: true };
+
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
     }
 }

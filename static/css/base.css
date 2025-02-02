@@ -12,6 +12,7 @@
     --gray-170: #000000;
     --standard-spacing: 0.6rem;
     --shell-hspacing: 1.3rem;
+    --corner: 8px;
 }
 
 /* General */
@@ -27,6 +28,10 @@ a:hover {
     font-style: italic;
 }
 
+label {
+    cursor: pointer;
+}
+
 input[type=radio],
 input[type=checkbox] {
     margin: 0.3rem;
@@ -35,16 +40,18 @@ input[type=checkbox] {
 
 input[type=button],
 input[type=submit] {
+    margin: 1.3rem 0.3rem;
     padding: 0.3rem 0.6rem;
     background-color: var(--blue-30);
     color: white;
     font-size: 1.3rem;
     font-weight: bold;
+    border-radius: var(--corner);
 }
 
 fieldset {
     border: 2px solid #ccc;
-    border-radius: 8px;
+    border-radius: var(--corner);
 }
 
 nav ul {
@@ -69,12 +76,12 @@ nav ul.horizontal li a {
 }
 
 nav ul.horizontal li:first-of-type a {
-    border-radius: 0.3rem 0px 0px 0.3rem;
+    border-radius: var(--corner) 0px 0px var(--corner);
     border-left: 2px solid var(--gray-140);
 }
 
 nav ul.horizontal li:last-of-type a {
-    border-radius: 0px 0.3rem 0.3rem 0px;
+    border-radius: 0px var(--corner) var(--corner) 0px;
 }
 
 nav ul.stacked li a {
@@ -84,11 +91,11 @@ nav ul.stacked li a {
 }
 
 nav ul.stacked li:first-of-type a {
-    border-radius: 0.3rem 0.3rem 0rem 0rem;
+    border-radius: var(--corner) var(--corner) 0rem 0rem;
 }
 
 nav ul.stacked li:last-of-type a {
-    border-radius: 0rem 0rem 0.3rem 0.3rem;
+    border-radius: 0rem 0rem var(--corner) var(--corner);
     border-bottom: 2px solid var(--gray-140);
 }
 
@@ -133,7 +140,7 @@ nav ul.stacked li:last-of-type a {
 }
 
 .button-item {
-    border-radius: 0.3rem;
+    border-radius: var(--corner);
     border: 2px ridge var(--gray-120);
 }
 
@@ -151,6 +158,10 @@ nav ul.stacked li:last-of-type a {
     border-radius: 0.3rem;
     border: 4px ridge var(--gray-140);
     */
+}
+.is-underlined {
+    text-decoration: underline;
+    text-underline-offset: 0.3em;
 }
 
 .flex-row {

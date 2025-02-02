@@ -5,47 +5,13 @@
 	import RadioGroup from '$lib/components/RadioGroup.svelte';
 	import RadioGroupRow from '$lib/components/RadioGroupRow.svelte';
 	import Textbox from '$lib/components/Textbox.svelte';
+	import { store } from '$lib/const/store';
 	import { isString } from 'es-toolkit';
 	import { isObject, some } from 'es-toolkit/compat';
 
-	// global store
-	const store = {
-		entityClass: {
-			CLIENT: 2,
-			SERVICE_PROVIDER: 3,
-			MASTER: 1
-		},
-		entityPrimaryType: {
-			COMPANY: 1,
-			PERSON: 2
-		},
-		entityStatus: {
-			ACTIVE: 11,
-			DORMANT: 101,
-			STRIKE_OFF: 102
-		},
-		companyType: {
-			NOT_SELECTED: 0,
-			SOLE_PROP: 101,
-			PARTNERSHIP: 102,
-			SDN_BHD: 103,
-			LIMITED_LIABILITY_PARTNERSHIP: 104
-		},
-		icType: {
-			NEW_IC: 1,
-			OLD_IC: 2
-		},
-		profileStatus: {
-			EMPTY: 0,
-			PRE_ACTIVATION: 1,
-			ACTIVE: 11,
-			RESIGNED: 101
-		}
-	};
-
 	// page store
 	let entityClass = $state(store.entityClass.CLIENT);
-	let entityPrimaryType = $state(store.entityPrimaryType.COMPANY);
+	let entityTypePrimary = $state(store.entityTypePrimary.COMPANY);
 
 	let isClient = $derived(
 		[store.entityClass.CLIENT, store.entityClass.MASTER].includes(entityClass)
@@ -53,12 +19,12 @@
 	let isServiceProvider = $derived(
 		[store.entityClass.SERVICE_PROVIDER, store.entityClass.MASTER].includes(entityClass)
 	);
-	let isCompany = $derived(entityPrimaryType == 1);
-	let isPerson = $derived(entityPrimaryType == 2);
+	let isCompany = $derived(entityTypePrimary == 1);
+	let isPerson = $derived(entityTypePrimary == 2);
 
-	let entitySecondaryType = $state(null);
+	let entityTypeSecondary = $state(0);
 	let entityName = $state('');
-	let entityStatus = $state(null);
+	let entityStatus = $state(11);
 	let coRegNoOld = $state(null);
 	let coRegNoNew = $state(null);
 	let employerNo = $state(null);
@@ -74,7 +40,7 @@
 
 	let incomeTaxNo = $state(null);
 	let incomeTaxBranch = $state(null);
-	let profileStatus = $state(null);
+	let profileStatus = $state(0);
 
 	// open
 	let isOpened = $state(true);
@@ -83,11 +49,11 @@
 	let entityClassUpdater = (value) => {
 		entityClass = value;
 	};
-	let entityPrimaryTypeUpdater = (value) => {
-		entityPrimaryType = value;
+	let entityTypePrimaryUpdater = (value) => {
+		entityTypePrimary = value;
 	};
-	let entitySecondaryTypeUpdater = (value) => {
-		entitySecondaryType = value;
+	let entityTypeSecondaryUpdater = (value) => {
+		entityTypeSecondary = value;
 	};
 	let entityNameUpdater = (value) => {
 		const transformed = value.toUpperCase();
@@ -142,8 +108,8 @@
 
 	// messages
 	let entityClassMessage = $state('');
-	let entityPrimaryTypeMessage = $state('');
-	let entitySecondaryTypeMessage = $state('');
+	let entityTypePrimaryMessage = $state('');
+	let entityTypeSecondaryMessage = $state('');
 	let entityNameMessage = $state('');
 	let entityStatusMessage = $state('');
 	let coRegNoOldMessage = $state('');
@@ -165,8 +131,8 @@
 	let formDisabled = $derived.by(() => {
 		const messages = [
 			entityClassMessage,
-			entityPrimaryTypeMessage,
-			entitySecondaryTypeMessage,
+			entityTypePrimaryMessage,
+			entityTypeSecondaryMessage,
 			entityNameMessage,
 			entityStatusMessage,
 			coRegNoOldMessage,
@@ -206,7 +172,7 @@
 
 	$effect(() => {
 		entityClass;
-		entityPrimaryType;
+		entityTypePrimary;
 		console.log('reset all values');
 	});
 
@@ -214,7 +180,7 @@
 		entityClassMessage = validateField(entityClass, {
 			required: 'You must select one Entity Class to continue'
 		});
-		entityPrimaryTypeMessage = validateField(entityPrimaryType, {
+		entityTypePrimaryMessage = validateField(entityTypePrimary, {
 			required: 'You must select either Company or Person to continue'
 		});
 		entityNameMessage = validateField(entityName, {
@@ -225,13 +191,13 @@
 		});
 
 		// dependent validations
-		let entitySecondaryTypeValidation = {};
-		if (entityPrimaryType == 1) {
-			entitySecondaryTypeValidation = {
+		let entityTypeSecondaryValidation = {};
+		if (entityTypePrimary == 1) {
+			entityTypeSecondaryValidation = {
 				required: 'You must select either one of Company Type to continue'
 			};
 		}
-		entitySecondaryTypeMessage = validateField(entitySecondaryType, entitySecondaryTypeValidation);
+		entityTypeSecondaryMessage = validateField(entityTypeSecondary, entityTypeSecondaryValidation);
 	});
 </script>
 
@@ -262,13 +228,13 @@
 						/>
 
 						<RadioGroupRow
-							radioName={'entityPrimaryType'}
-							radioValue={entityPrimaryType}
-							radioOptions={Object.entries(store.entityPrimaryType)}
-							radioMutate={entityPrimaryTypeUpdater}
+							radioName={'entityTypePrimary'}
+							radioValue={entityTypePrimary}
+							radioOptions={Object.entries(store.entityTypePrimary)}
+							radioMutate={entityTypePrimaryUpdater}
 							fieldLabel={''}
 							fieldDescription={'Choose ONE type'}
-							fieldValidationMessage={entityPrimaryTypeMessage}
+							fieldValidationMessage={entityTypePrimaryMessage}
 						/>
 					</fieldset>
 					<Textbox
@@ -321,12 +287,12 @@
 							<legend>Company Details</legend>
 							<RadioGroup
 								fieldLabel={'Company Type'}
-								radioName={'entitySecondaryType'}
-								radioValue={entitySecondaryType}
+								radioName={'entityTypeSecondary'}
+								radioValue={entityTypeSecondary}
 								radioOptions={Object.entries(store.companyType)}
-								radioMutate={entitySecondaryTypeUpdater}
+								radioMutate={entityTypeSecondaryUpdater}
 								fieldDescription={'Select Company Type'}
-								fieldValidationMessage={entitySecondaryTypeMessage}
+								fieldValidationMessage={entityTypeSecondaryMessage}
 							/>
 							<Textbox
 								name={'coRegNoNew'}
