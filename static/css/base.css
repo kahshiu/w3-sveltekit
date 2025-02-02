@@ -47,6 +47,12 @@ input[type=submit] {
     font-size: 1.3rem;
     font-weight: bold;
     border-radius: var(--corner);
+    cursor: pointer;
+}
+
+input[type=submit]:disabled {
+    background-color: var(--gray-100);
+    cursor: auto;
 }
 
 fieldset {
@@ -150,6 +156,16 @@ nav ul.stacked li:last-of-type a {
     color: white;
 }
 
+.error {
+    margin: 0.3rem;
+    padding: 0.6rem;
+    border-radius: var(--corner);
+    border: 4px ridge black;
+    background-color: firebrick;
+    color: white;
+    font-weight: bold;
+}
+
 /* utility */
 .is-checked {
     font-weight: bold;
@@ -159,6 +175,7 @@ nav ul.stacked li:last-of-type a {
     border: 4px ridge var(--gray-140);
     */
 }
+
 .is-underlined {
     text-decoration: underline;
     text-underline-offset: 0.3em;

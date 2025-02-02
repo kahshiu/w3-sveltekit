@@ -1,15 +1,19 @@
-import { store } from "$lib/const/store.js";
+import { store } from "$lib/const/store";
 import { fail, redirect } from "@sveltejs/kit";
 import { camelCase } from "es-toolkit";
 
-export const load = ({ params }) => {
-    // redirect(307, '/profiles');
-    /*
-    const { entityTypePrimary } = params
-    return {
-        entityTypePrimary
-    };
-    */
+export const load = async ({ params }) => {
+    const { entityId } = params
+
+    const url = `http://localhost:3000/api/entities/${entityId.toString()}`
+    const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+    const result = response.json()
+    return result;
 };
 
 const populatePayload = (obj, transform) => {
@@ -69,9 +73,10 @@ const collectKeys = (data) => {
 }
 
 export const actions = {
-    "create-entity": async ({ request }) => {
+    "update-entity": async ({ request }) => {
         const data = await request.formData();
         const payload = populatePayload(data, {
+            "entity-id": Number,
             "entity-class": Number,
             "entity-type-primary": Number,
             "entity-type-secondary": Number,
@@ -104,10 +109,12 @@ export const actions = {
         payload.relatedParents = []
         payload.relatedChildren = []
 
-        const url = "http://localhost:3000/api/entity"
+        const url = "http://localhost:3000/api/entity/" + payload.entityId
+
+        console.log(payload)
 
         const response = await fetch(url, {
-            method: 'POST',
+            method: 'PATCH',
             body: JSON.stringify(payload),
             headers: {
                 'Content-Type': 'application/json'
@@ -120,6 +127,7 @@ export const actions = {
         }
 
         const result = await response.json();
+        console.log(result)
         const redirectUrl = `/profiles/edit/${result.payload.entityId}`
 
         redirect(303, redirectUrl);
