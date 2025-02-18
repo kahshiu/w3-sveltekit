@@ -120,7 +120,7 @@ export const actions = {
         }
 
         const result = await response.json();
-        const redirectUrl = `/profiles/edit/${result.payload.entityId}`
+        const redirectUrl = `/profiles/${result.payload.entityId}`
 
         redirect(303, redirectUrl);
         return { success: true };

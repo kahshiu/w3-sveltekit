@@ -128,7 +128,7 @@ export const actions = {
 
         const result = await response.json();
         console.log(result)
-        const redirectUrl = `/profiles/edit/${result.payload.entityId}`
+        const redirectUrl = `/profiles/${result.payload.entityId}`
 
         redirect(303, redirectUrl);
         return { success: true };

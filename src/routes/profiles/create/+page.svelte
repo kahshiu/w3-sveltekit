@@ -408,13 +408,4 @@
 </div>
 
 <style>
-	.error {
-		margin: 0.3rem;
-		padding: 0.6rem;
-		border-radius: var(--corner);
-		border: 4px ridge black;
-		background-color: firebrick;
-		color: white;
-		font-weight: bold;
-	}
 </style>
